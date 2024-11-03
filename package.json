@@ -64,6 +64,11 @@
     "configuration": {
       "title": "templ",
       "properties": {
+        "templ.customLocation": {
+          "type": "string",
+          "default": "",
+          "description": "A custom location to be added to the templLocations array."
+        },
         "templ.goplsLog": {
           "type": "string",
           "default": "",
@@ -124,6 +129,7 @@
   },
   "dependencies": {
     "lookpath": "^1.2.2",
+    "templ": "file:",
     "vscode-languageclient": "9.0.1"
   }
 }

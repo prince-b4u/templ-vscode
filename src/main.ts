@@ -42,6 +42,7 @@ interface Configuration {
   pprof: boolean;
   http: string;
   experiments: string;
+  customLocation: string;
 }
 
 interface TemplCtx {
@@ -59,6 +60,7 @@ const loadConfiguration = (): Configuration => {
     pprof: c.get("pprof") ? true : false,
     http: c.get("http") || "",
     experiments: c.get("experiments") || "",
+    customLocation: c.get("templ.customLocation") || "",
   };
 };
 
@@ -81,6 +83,10 @@ const templLocations = [
 ];
 
 async function findTempl(): Promise<string> {
+  const config = loadConfiguration();
+  if (config.customLocation) {
+    templLocations.push(config.customLocation);
+  }
   const linuxName = await lookpath("templ");
   if (linuxName) {
     return linuxName;
@@ -158,14 +164,15 @@ export async function buildLanguageClient(): Promise<LanguageClient> {
   );
 
   const envTemplExperiments = process.env.TEMPL_EXPERIMENT;
-  const templExperiments = config.experiments === "" ? envTemplExperiments : config.experiments;
+  const templExperiments =
+    config.experiments === "" ? envTemplExperiments : config.experiments;
   const c = new CustomLanguageClient(
     "templ", // id
     "templ",
     {
       command: templPath,
-      options: { 
-        env:{
+      options: {
+        env: {
           ...process.env,
           TEMPL_EXPERIMENT: templExperiments,
         },
