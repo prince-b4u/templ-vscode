@@ -1,21 +1,21 @@
 import * as vscode from "vscode";
 import {
-  CancellationToken,
+  type CancellationToken,
   CloseAction,
-  CloseHandlerResult,
+  type CloseHandlerResult,
   CompletionItemKind,
-  ConfigurationParams,
-  ConfigurationRequest,
+  type ConfigurationParams,
+  type ConfigurationRequest,
   ErrorAction,
-  ErrorHandlerResult,
-  Message,
-  ProvideCompletionItemsSignature,
-  ProvideDocumentFormattingEditsSignature,
-  ResponseError,
+  type ErrorHandlerResult,
+  type Message,
+  type ProvideCompletionItemsSignature,
+  type ProvideDocumentFormattingEditsSignature,
+  type ResponseError,
 } from "vscode-languageclient";
-import fs from "fs/promises";
-import path from "path";
-import { LanguageClient } from "vscode-languageclient/node";
+import fs from "node:fs/promises";
+import path from "node:path";
+import type { LanguageClient } from "vscode-languageclient/node";
 import { lookpath } from "lookpath";
 import { CustomLanguageClient } from "./custom-client";
 
@@ -55,9 +55,9 @@ const loadConfiguration = (): Configuration => {
   const c = vscode.workspace.getConfiguration("templ");
   return {
     goplsLog: c.get("goplsLog") || "",
-    goplsRPCTrace: c.get("goplsRPCTrace") ? true : false,
+    goplsRPCTrace: !!c.get("goplsRPCTrace"),
     log: c.get("log") || "",
-    pprof: c.get("pprof") ? true : false,
+    pprof: !!c.get("pprof"),
     http: c.get("http") || "",
     experiments: c.get("experiments") || "",
     customLocation: c.get("templ.customLocation") || "",
@@ -140,13 +140,13 @@ export async function buildLanguageClient(): Promise<LanguageClient> {
     args.push(`-goplsLog=${config.goplsLog}`);
   }
   if (config.goplsRPCTrace) {
-    args.push(`-goplsRPCTrace=true`);
+    args.push("-goplsRPCTrace=true");
   }
   if (config.log.length > 0) {
     args.push(`-log=${config.log}`);
   }
   if (config.pprof) {
-    args.push(`-pprof=true`);
+    args.push("-pprof=true");
   }
   if (config.http.length > 0) {
     args.push(`-http=${config.http}`);
@@ -266,7 +266,7 @@ export async function buildLanguageClient(): Promise<LanguageClient> {
           const editorParamHintsEnabled = vscode.workspace.getConfiguration(
             "editor.parameterHints",
             document.uri
-          )["enabled"];
+          ).enabled;
           const goParamHintsEnabled = vscode.workspace.getConfiguration(
             "[go]",
             document.uri
@@ -312,7 +312,7 @@ export async function buildLanguageClient(): Promise<LanguageClient> {
             }
             const ret = [] as any[];
             for (let i = 0; i < configs.length; i++) {
-              let workspaceConfig = configs[i];
+              const workspaceConfig = configs[i];
               console.log(workspaceConfig);
               ret.push(workspaceConfig);
             }

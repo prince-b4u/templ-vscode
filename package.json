@@ -5,13 +5,13 @@
   "publisher": "a-h",
   "icon": "templ.png",
   "repository": {
-    "url": "https://github.com/a-h/templ-vscode"
+    "url": "https://github.com/prince-b4u/templ-vscode"
   },
   "activationEvents": [
     "workspaceContains:**/*.templ"
   ],
-  "main": "./dist/main.js",
-  "version": "0.0.29",
+  "main": "dist/main.js",
+  "version": "0.0.31",
   "engines": {
     "vscode": "^1.92.0"
   },
@@ -25,6 +25,9 @@
     "test": "vscode-tmgrammar-snap -g ./tests/go.tmLanguage.json -g ./tests/css.tmLanguage.json -g ./tests/JavaScript.tmLanguage.json 'tests/snap/**/*.templ'",
     "test:update": "vscode-tmgrammar-snap -g ./tests/go.tmLanguage.json -g ./tests/css.tmLanguage.json -g ./tests/JavaScript.tmLanguage.json --updateSnapshot 'tests/snap/**/*.templ'"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "categories": [
     "Programming Languages"
   ],
@@ -129,7 +132,6 @@
   },
   "dependencies": {
     "lookpath": "^1.2.2",
-    "templ": "file:",
     "vscode-languageclient": "9.0.1"
   }
 }

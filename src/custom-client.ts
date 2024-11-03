@@ -1,8 +1,8 @@
 import { FoldingRangeFeature } from "vscode-languageclient/lib/common/foldingRange";
 import {
-  DynamicFeature,
+  type DynamicFeature,
   LanguageClient,
-  StaticFeature,
+  type StaticFeature,
 } from "vscode-languageclient/node";
 
 export class CustomLanguageClient extends LanguageClient {
